@@ -35,8 +35,8 @@ public class App {
 		
 		qManager.createConnection(jdbcURL, jdbcUsername, jdbcPassword);
 		qManager.executeMIN();
-		qManager.executeMAX();
-		qManager.executeCOUNT(200.0);
+		//qManager.executeMAX();
+		//qManager.executeCOUNT(200.0);
 		//qManager.executeAVG();
 		qManager.closeConnection();
 		
