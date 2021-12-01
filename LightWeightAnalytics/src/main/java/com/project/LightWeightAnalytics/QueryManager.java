@@ -21,8 +21,8 @@ public class QueryManager {
 	int updateWindowMinutes = 60;
 	int slidingWindowSize = -1;
 	String query = "SELECT * FROM ";
-	String tableName = "inaccess";
-	String tmstmp = "2014-01-01 11:00:00";
+	String tableName = "tableName"; // User must define the name of the table
+	String tmstmp = "2014-01-01 11:00:00"; 
 	Timestamp timeStamp = null;
 	Timestamp timeStamp2 = null;
 	String jdbcURL = null;
