@@ -31,7 +31,7 @@ public class App {
 		server = Server.createTcpServer(args).start();
 		System.out.println("Connect to Server");
 	
-		QueryManager qManager = new QueryManager(5);
+		QueryManager qManager = new QueryManager(5,"tableName", "columnName");
 		
 		qManager.createConnection(jdbcURL, jdbcUsername, jdbcPassword);
 		qManager.executeMIN();
