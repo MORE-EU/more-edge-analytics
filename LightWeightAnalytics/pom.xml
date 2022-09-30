@@ -37,6 +37,34 @@
     	<artifactId>h2</artifactId>
     	<version>1.4.200</version>
 	</dependency>
+	
+	
+	<!-- https://mvnrepository.com/artifact/org.apache.arrow/arrow-vector -->
+	<dependency>
+	    <groupId>org.apache.arrow</groupId>
+	    <artifactId>arrow-vector</artifactId>
+	    <version>9.0.0</version>
+	</dependency>
+	
+	<!-- https://mvnrepository.com/artifact/org.apache.arrow/flight-core -->
+	<dependency>
+	    <groupId>org.apache.arrow</groupId>
+	    <artifactId>flight-core</artifactId>
+	    <version>9.0.0</version>
+	</dependency>
+	
+	
+	<dependency>
+    	<groupId>org.slf4j</groupId>
+    	<artifactId>slf4j-api</artifactId>
+    	<version>1.7.2</version>
+	</dependency>
+	
+	<dependency>
+	    <groupId>org.slf4j</groupId>
+	    <artifactId>slf4j-jdk14</artifactId>
+	    <version>1.7.25</version>
+	</dependency>
     
   </dependencies>
 

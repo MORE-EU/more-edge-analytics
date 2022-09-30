@@ -1,0 +1,7 @@
+updateWindowMinutes = 3
+slidingWindowSize = 3
+variableName = 1
+timestamp = 2018-01-03T00:00
+databaseTableName = DataPoint
+countThreashold = 200
+executionQuery = min
