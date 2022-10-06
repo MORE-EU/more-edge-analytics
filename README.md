@@ -1,4 +1,5 @@
 ## more-edge-analytics
+(Initial integrated version of the Platform)
 
 ### **Light Weight Analytics**
 
