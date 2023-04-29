@@ -36,4 +36,4 @@ specific branch:
 
 * **mvn install** :This command will compile, test and package your Java project and even install your built .jar file into your local Maven repository. 
 * **java -jar target/LightWeightAnalytics-final.jar path of the parameter and file the number of threads (with space between them)** : Command for the execution
-* ** mvn clean** : it deletes all previously compiled Java .class files and resources (like. properties) in your project. Your build will start from a clean slate. 
+* **mvn clean** : it deletes all previously compiled Java .class files and resources (like. properties) in your project. Your build will start from a clean slate. 
