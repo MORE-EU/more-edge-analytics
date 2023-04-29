@@ -20,7 +20,7 @@ specific branch:
 
 &emsp; User can set the arguments for our techniques via parameter file. The first line should contain the number of the queries (numOfqueries). With more details, the parameters are:
         
-* **updatedwindowminute** : this variable defines the update frequency of the update window in minutes 
+* **updatedwindowminute** : this variable defines the update frequency of the update window in seconds 
             
 * **slidingWindowSize** : this variable defines the size of the sliding window 
             
