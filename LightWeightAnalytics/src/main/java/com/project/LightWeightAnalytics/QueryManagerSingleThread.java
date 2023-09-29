@@ -65,7 +65,8 @@ public class QueryManagerSingleThread {
 		String line = null;
 		boolean FLAGQueryReady = false;
 		int queryId = 0;
-		
+
+	    	QueryExecutionSingleThread queryExe = null;
 		
 		try {
 			while ((line = br.readLine()) != null) {
@@ -222,10 +223,13 @@ public class QueryManagerSingleThread {
 				if (FLAGQueryReady == true) {
 					ThreadInfo threadInfo = new ThreadInfo(aggregatesQueries, slidingWindowSize, updateWindowMinutes, timeStamp, queryId);
 					data.add(threadInfo);
-			    	aggInfo = null;
-			    	queryId ++;
+			    		aggInfo = null;
+			    		queryId ++;
 					FLAGQueryReady = false;
 					aggregatesQueries = new LinkedHashMap<String,AggregatesInfo>();
+
+					queryExe = new QueryExecutionSingleThread(data, variableFilePaths);
+					queryExe.executeQuery();
 				}
 				
 			}
