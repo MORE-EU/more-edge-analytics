@@ -6,13 +6,26 @@ import java.sql.Timestamp;
 import java.util.ArrayList;
 import java.util.Map;
 import java.util.concurrent.TimeUnit;
+import java.util.UUID;
+
+import org.eclipse.paho.client.mqttv3.IMqttClient;
+import org.eclipse.paho.client.mqttv3.IMqttDeliveryToken;
+import org.eclipse.paho.client.mqttv3.MqttCallback;
+import org.eclipse.paho.client.mqttv3.MqttClient;
+import org.eclipse.paho.client.mqttv3.MqttConnectOptions;
+import org.eclipse.paho.client.mqttv3.MqttException;
+import org.eclipse.paho.client.mqttv3.MqttMessage;
 
 public class QueryExecution implements Runnable{
 	ArrayList<ThreadInfo> threadData = null;
 	Timestamp timeStamp = null;
 	Timestamp timeStamp2 = null;
 	int thread_id = -1;
-
+	IMqttClient client = null;
+	String broker_address = "tcp://172.17.0.7:1883";
+	int qos = 1;
+	String topic = "/mqttstreamer/testtopic";
+	
 
 	//Constructor
 	QueryExecution(ArrayList<ThreadInfo> threadData, Map <String,String> variableFilePaths, int thread_id){
@@ -33,6 +46,7 @@ public class QueryExecution implements Runnable{
 				aggregatesQueries.get(name).setrAccessFile(rAccessFile);
 			}
 		}
+		this.client = connectionWithMQTTBroker(broker_address, qos, topic);
 	}
 	
 	
@@ -159,7 +173,7 @@ public class QueryExecution implements Runnable{
 		}
 	}
 	
-	//get records for update window
+    //get records for update window
     ArrayList<Float> getRecordsFromFiles(AggregatesInfo aggInfo, Timestamp timeStampStart, Timestamp timeStampEnd){
     	ArrayList<Float> buffer = new ArrayList<Float>();
     	
@@ -187,6 +201,70 @@ public class QueryExecution implements Runnable{
 			}
 			
 		} catch (IOException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	return buffer;
+    }
+
+    //connect to MQTT
+    IMqttClient connectionWithMQTTBroker(String broker_address, int qos, String topic) {
+    	String publisherId = UUID.randomUUID().toString();
+    	
+    	IMqttClient client = null;
+		try {
+			client = new MqttClient(broker_address,publisherId);
+			
+			MqttConnectOptions options = new MqttConnectOptions();
+			options.setAutomaticReconnect(true);
+			options.setCleanSession(true);
+			options.setConnectionTimeout(10);
+			
+			client.connect(options);
+	        
+			
+		} catch (MqttException e) {
+			// TODO Auto-generated catch block
+			e.printStackTrace();
+		}
+    	
+    	
+    	return client;
+    }
+    
+    
+    //get records from MQTT 
+    ArrayList<Float> getRecordsFromMQTTServer(AggregatesInfo aggInfo, Timestamp timeStampStart, Timestamp timeStampEnd){
+    	ArrayList<Float> buffer = new ArrayList<Float>();
+    	
+    	client.setCallback(new MqttCallback() {
+
+    		public void connectionLost(Throwable cause) {
+    			System.out.println("connectionLost: " + cause.getMessage());
+    		}
+	
+    		public void messageArrived(String topic, MqttMessage message) {
+    				
+    			String arrayMessage =  new String(message.getPayload());  
+    			
+    			String[] temp = arrayMessage.split(" ");
+    			
+    			for (int i = 0; i < temp.length ; i++) {
+    				buffer.add(Float.parseFloat(temp[i]));
+    			}
+    			
+    			return;
+    		}
+	
+    		public void deliveryComplete(IMqttDeliveryToken token) {
+    			System.out.println("deliveryComplete---------" + token.isComplete());
+    		}
+    	});
+    	
+    	try {
+			client.subscribe(topic, qos);
+		} catch (MqttException e) {
 			// TODO Auto-generated catch block
 			e.printStackTrace();
 		}
