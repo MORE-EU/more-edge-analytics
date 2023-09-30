@@ -85,7 +85,8 @@ public class QueryExecution implements Runnable{
 				
 				for (String variable: aggregatesQueries.keySet()) {
 					AggregatesInfo aggInfo = aggregatesQueries.get(variable);
-					bufferRec = getRecordsFromFiles(aggInfo, this.timeStamp, this.timeStamp2);
+					//bufferRec = getRecordsFromFiles(aggInfo, this.timeStamp, this.timeStamp2);
+					bufferRec = getRecordsFromMQTTServer(aggInfo, this.timeStamp, this.timeStamp2);
 					
 					for (int i = 0 ; i < aggInfo.getQueries().size() ; i++ ) {
 						aggInfo.getQueries().get(i).fillSlidingWindow(initialIndex, bufferRec);
@@ -160,7 +161,8 @@ public class QueryExecution implements Runnable{
 				
 				for (String variable: aggregatesQueries.keySet()) {
 					aggInfo = aggregatesQueries.get(variable);
-					bufferRec = getRecordsFromFiles(aggInfo, this.timeStamp, this.timeStamp2);	
+					//bufferRec = getRecordsFromFiles(aggInfo, this.timeStamp, this.timeStamp2);	
+					bufferRec = getRecordsFromMQTTServer(aggInfo, this.timeStamp, this.timeStamp2);
 					for (int i = 0 ; i < aggInfo.getQueries().size() ; i++ ) {					
 						aggInfo.getQueries().get(i).run(bufferRec);
 					}
